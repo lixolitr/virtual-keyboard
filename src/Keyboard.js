@@ -82,6 +82,27 @@ export default class Keyboard {
       button.dataset.button = symbol;
       return button;
     });
+
+    // Оборачиваем кнопки в строки и клавиатуру в контейнер
+    const rows = this.splitArray(buttons, 13);
+    const keyboardContainer = document.createElement('div');
+    keyboardContainer.classList.add('keyboard');
+    rows.forEach((row) => {
+      const rowContainer = document.createElement('div');
+      rowContainer.classList.add('keyboard__row');
+      row.forEach((button) => rowContainer.appendChild(button));
+      keyboardContainer.appendChild(rowContainer);
+    });
+
+    // Добавляем обработчики событий для нажатия на кнопки виртуальной клавиатуры
+    keyboardContainer.addEventListener(
+      'click',
+      this.handleButtonClick.bind(this),
+    );
+
+    // Вставляем контейнер клавиатуры в DOM
+    const appContainer = document.getElementById('body');
+    appContainer.appendChild(keyboardContainer);
   }
 
   handleKeyPress() {
