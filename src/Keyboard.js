@@ -4,6 +4,15 @@ export default class Keyboard {
     this.capsLock = false;
   }
 
+  // Метод для разбиения массива кнопок на строки
+  static splitArray(buttons, itemsPerRow) {
+    const result = [];
+    for (let i = 0; i < buttons.length; i += itemsPerRow) {
+      result.push(buttons.slice(i, i + itemsPerRow));
+    }
+    return result;
+  }
+
   generateLayout() {
     // Создаем массивы с данными о кнопках клавиатуры для каждой раскладки
     const enLayout = [
@@ -31,8 +40,6 @@ export default class Keyboard {
       'i',
       'o',
       'p',
-      '[',
-      ']',
       '\\',
       'del',
       'caps',
@@ -95,21 +102,21 @@ export default class Keyboard {
     });
 
     // Добавляем обработчики событий для нажатия на кнопки виртуальной клавиатуры
-    keyboardContainer.addEventListener(
-      'click',
-      this.handleButtonClick.bind(this),
-    );
+    // keyboardContainer.addEventListener(
+    //   "click",
+    //   this.handleButtonClick.bind(this)
+    // );
 
     // Вставляем контейнер клавиатуры в DOM
     const appContainer = document.getElementById('body');
     appContainer.appendChild(keyboardContainer);
   }
 
-  handleKeyPress() {
+  static handleKeyPress() {
     // обработка нажатий клавиш
   }
 
-  switchLayout() {
+  static switchLayout() {
     // переключение раскладки клавиатуры
   }
 }
