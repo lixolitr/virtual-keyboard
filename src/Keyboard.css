@@ -17,3 +17,7 @@
   padding: 0;
   -webkit-tap-highlight-color: transparent;
 }
+
+.keyboard__button--active {
+  background-color: aqua;
+}

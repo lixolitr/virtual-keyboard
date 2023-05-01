@@ -91,7 +91,7 @@ export default class Keyboard {
     });
 
     // Оборачиваем кнопки в строки и клавиатуру в контейнер
-    const rows = this.splitArray(buttons, 13);
+    const rows = Keyboard.splitArray(buttons, 13);
     const keyboardContainer = document.createElement('div');
     keyboardContainer.classList.add('keyboard');
     rows.forEach((row) => {
@@ -102,21 +102,41 @@ export default class Keyboard {
     });
 
     // Добавляем обработчики событий для нажатия на кнопки виртуальной клавиатуры
-    // keyboardContainer.addEventListener(
-    //   "click",
-    //   this.handleButtonClick.bind(this)
-    // );
+    keyboardContainer.addEventListener('click', this.handleButtonClick);
+
+    // Добавляем обработчик событий keydown и keyup
+    document.addEventListener('keydown', this.handleKeyPress);
+    document.addEventListener('keyup', this.handleKeyPress);
 
     // Вставляем контейнер клавиатуры в DOM
     const appContainer = document.getElementById('body');
     appContainer.appendChild(keyboardContainer);
   }
 
-  static handleKeyPress() {
+  handleKeyPress(event) {
     // обработка нажатий клавиш
+    if (event.type === 'keydown') {
+      // Найти соответствующую кнопку на виртуальной клавиатуре
+      const button = document.querySelector(`[data-symbol="${event.key}"]`);
+      if (!button) return;
+
+      // Выполнить действие в зависимости от нажатой клавиши
+      if (event.key === 'Shift' && event.altKey) {
+        this.switchLayout();
+      } else {
+        this.insertCharacter(event.key);
+      }
+
+      // Добавить класс для подсветки активной кнопки
+      button.classList.add('keyboard__button--active');
+    } else if (event.type === 'keyup') {
+      // Убрать класс для подсветки активной кнопки
+      const button = document.querySelector(`[data-symbol="${event.key}"]`);
+      if (button) button.classList.remove('keyboard__button--active');
+    }
   }
 
-  static switchLayout() {
-    // переключение раскладки клавиатуры
-  }
+  // switchLayout() {
+  // переключение раскладки клавиатуры
+  // }
 }
